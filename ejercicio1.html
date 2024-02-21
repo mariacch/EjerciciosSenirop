@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Statement 1</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Problem Statement 1</h1>
+    <div style=" padding: 5px; margin: 0  60px; ">
+        <small>Write a program that prints the numbers from 1 to 100. For multiples of three, print the word “Senir” instead
+            of the number. For multiples of five, print the word “Op” instead of the number.
+            For numbers which are multiples of both three and five, print “Senir Op” instead of the number.</small>
+    </div>
+    <ul id="resultList"></ul>
+
+    <script>
+        const resultList = document.getElementById("resultList");
+
+        for (let i = 1; i <= 100; i++) {
+            let result = "";
+            if (i % 3 === 0 && i % 5 === 0) {
+                result = "Senir Op";
+            } else if (i % 3 === 0) {
+                result = "Senir";
+            } else if (i % 5 === 0) {
+                result = "Op";
+            } else {
+                result = i.toString();
+            }
+
+            const listItem = document.createElement("li");
+            listItem.textContent = result;
+            resultList.appendChild(listItem);
+        }
+    </script>
+</body>
+</html>

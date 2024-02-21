@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Statement 3</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Problem Statement 3</h1>
+    <div style="padding: 5px; margin: 0 60px;">
+        <small>
+            You have a bicycle lock. The locking mechanism consists of several dials. Each dial contains the digits 0-9 in a
+cycle, in this order. From each dial exactly one digit is visible.
+Each dial can be rotated in either direction:
+ Rotating the dial one step in the positive direction (denoted '+') increments the digit shown.
+E.g., if the dial currently shows 4 and you make the '+' rotation, the dial will now show 5. After the
+digit 9 comes the digit 0 again.
+ Rotating the dial one step in the negative direction (denoted '-') does the opposite.
+E.g., the '-' rotation will change a dial showing 5 into a dial showing 4, and it will change a dial showing
+0 into a dial showing 9.
+Your finger is currently on the leftmost dial. You can use it to rotate the dial it's on. You can also move your
+finger one dial to the right (denoted '>') or one dial to the left (denoted '<'). You can only move your finger if
+the destination dial actually exists.
+You are given the int[] dials. The elements of dials are the digits currently shown on the dials of your lock, from
+the left to the right.
+You would like to scramble your lock into a state where all of the digits shown on the dials are mutually
+distinct. Find any sequence of at most 100 actions that accomplishes this goal, and return it as a String[].
+        </small>
+    </div>
+
+    <label for="inputText">Enter dial :</label>
+    <input type="text"  id="inputNumber">
+    <button onclick="bicycleLock.makeDistinct()">ADD</button>
+    <button onclick="bicycleLock.clearValor()">CLEAR</button>
+    <h2>added dials:</h2>
+    <ul id="valoresList"></ul>
+
+    <script >
+class BicycleLock {
+    constructor() {
+        this.valoresList = [];
+    }
+    makeDistinct() {
+        this.clearValor();
+        const inputValue = document.getElementById("inputNumber").value;
+        const valor = parseInt(inputValue);
+        if (this.valoresList.some(item => item.valor === valor)) {
+            alert("El valor ya está en la lista.");
+            return;
+        }
+        const digitos = this.descomponerDigitos(valor);
+        const digitosConBotones = digitos.map(digito => ({ valor: digito, id: Date.now() }));
+        this.valoresList.push(...digitosConBotones);
+        this.mostrarValores();
+    }
+
+    sonDigitosDistintos(valor) {
+        const digitos = valor.toString().split('').map(Number);
+        return new Set(digitos).size === digitos.length;
+    }
+
+    descomponerDigitos(numero) {
+        return numero.toString().split('').map(digito => parseInt(digito));
+    }
+
+    mostrarValores() {
+        const valoresListElement = document.getElementById("valoresList");
+        valoresListElement.innerHTML = "";
+
+        this.valoresList.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item.valor;
+
+            const buttonIncrementar = document.createElement("button");
+            buttonIncrementar.textContent = "+";
+            buttonIncrementar.onclick = () => this.incrementarValor(item);
+            li.appendChild(buttonIncrementar);
+
+            const buttonDecrementar = document.createElement("button");
+            buttonDecrementar.textContent = "-";
+            buttonDecrementar.onclick = () => this.decrementarValor(item);
+            li.appendChild(buttonDecrementar);
+
+            valoresListElement.appendChild(li);
+        });
+    }
+
+    incrementarValor(item) {
+        if (!item.incrementado) {
+            if (item.valor == 9) {
+                item.valor = 0;
+            } else {
+                item.valor++;
+            }
+            item.incrementado = true;
+            this.mostrarValores();
+        }
+    }
+
+    decrementarValor(item) {
+        if (!item.decrementado) {
+            if (item.valor == 0) {
+                item.valor = 9;
+            } else {
+                item.valor--;
+            }
+            item.decrementado = true;
+            this.mostrarValores();
+        }
+    }
+
+    clearValor() {
+        this.valoresList = [];
+        const valoresListElement = document.getElementById("valoresList");
+        valoresListElement.innerHTML = "";
+        document.getElementById("inputNumber").value = "";
+    }
+}
+
+const bicycleLock = new BicycleLock();
+
+
+
+   </script>
+</body>
+</html>
